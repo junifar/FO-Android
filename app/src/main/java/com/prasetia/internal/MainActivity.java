@@ -1,5 +1,7 @@
 package com.prasetia.internal;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.prasetia.internal.data.FiberDBHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +44,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FiberDBHelper fiberDBHelper = new FiberDBHelper(MainActivity.this);
+        SQLiteDatabase sqLiteDatabase = fiberDBHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(FiberDBHelper.COLUMN_ID_PROJECT_FO, 1);
+        contentValues.put(FiberDBHelper.COLUMN_CUSTOMER_ID_PROJECT_FO, 1);
+        contentValues.put(FiberDBHelper.COLUMN_CUSTOMER_NAME_PROJECT_FO, "Test");
+        sqLiteDatabase.insert(FiberDBHelper.TABLE_PROJECT_FO_NAME, null, contentValues);
+        fiberDBHelper.close();
     }
 
     @Override
